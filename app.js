@@ -14,6 +14,12 @@ window.onload = (event) => {
     container.style.display = "flex";
     container.style.flexFlow = "row wrap";
     container.style.width = "100%";
+    container.addEventListener("click", function(event) {
+        if (event.target.nodeName === "BUTTON") {
+            const totalClicksP = document.querySelector("#total-clicks");
+            totalClicksP.textContent = parseInt(totalClicksP.textContent) + 1;
+        }
+    });
     const homeTeamDiv = buildTeamDiv("home");
     const visitorTeamDiv = buildTeamDiv("away");
     container.appendChild(homeTeamDiv);
@@ -29,6 +35,12 @@ window.onload = (event) => {
         }
     });
     body.appendChild(resetBtn);
+    const totalClicksP = document.createElement("p");
+    totalClicksP.textContent = 0;
+    totalClicksP.id = "total-clicks";
+    totalClicksP.style.color = "white";
+    totalClicksP.style.fontSize = "4rem";
+    body.appendChild(totalClicksP);
 };
 
 function buildTeamDiv(mode) {
@@ -42,6 +54,21 @@ function buildTeamDiv(mode) {
     div.style.flexGrow = "1";
     div.style.paddingTop = "1rem";
     div.style.margin = "0 0.5rem";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = (mode === "home") 
+        ? "Name for home team" 
+        : "Name for visiting team";
+    input.classList.add("form-control", "my-3");
+    input.addEventListener("keypress", function(event) {
+        console.log(">>> 😲", event.key);
+        if (event.key.toLowerCase() === "a") event.preventDefault();
+        // event.stopPropagation();
+    });
+    input.addEventListener("input", function(event) {
+        console.log(">>> 😑", event.target.value);
+    });
+    div.appendChild(input);
     const teamNameH3 = document.createElement("h3");
     teamNameH3.textContent = (mode === "home") 
         ? "Home" 
@@ -69,6 +96,7 @@ function buildTeamDiv(mode) {
                 : "away-score"
         );
         targetScoreParagraph.textContent = parseInt(targetScoreParagraph.textContent) + 7;
+        event.stopPropagation();
     });
     const fgBtn = document.createElement("button");
     fgBtn.textContent = "Field Goal";
