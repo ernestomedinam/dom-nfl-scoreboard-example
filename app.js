@@ -96,7 +96,6 @@ function buildTeamDiv(mode) {
                 : "away-score"
         );
         targetScoreParagraph.textContent = parseInt(targetScoreParagraph.textContent) + 7;
-        event.stopPropagation();
     });
     const fgBtn = document.createElement("button");
     fgBtn.textContent = "Field Goal";
